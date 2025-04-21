@@ -1,36 +1,41 @@
-function calcularFactorial() {
-    let numero;
+document.getElementById('factorialForm').addEventListener('submit', function(e) {
+    e.preventDefault();
     
-    while (true) {
-        const input = prompt("Por favor, ingrese un número para calcular su factorial:");
-        
-        if (input === null) {
-            console.log("Operación cancelada por el usuario.");
-            return;
-        }
-        
-        numero = Number(input);
-        
-        if (isNaN(numero)) {
-            alert("Error: Debe ingresar un número válido. Intente nuevamente.");
-        } else if (!Number.isInteger(numero) || numero < 0) {
-            alert("Error: Debe ingresar un número entero positivo. Intente nuevamente.");
-        } else {
-            break;
-        }
+    const input = document.getElementById('numero');
+    const resultadoDiv = document.getElementById('resultado');
+    const errorDiv = document.getElementById('error');
+    
+    // Limpiar mensajes anteriores
+    resultadoDiv.textContent = '';
+    errorDiv.textContent = '';
+    
+    const numero = Number(input.value);
+    
+    // Validaciones
+    if (isNaN(numero)) {
+        errorDiv.textContent = 'Error: Debe ingresar un número válido';
+        return;
     }
     
-    // Calcular el factorial
-    let factorial = 1;
-    for (let i = 2; i <= numero; i++) {
-        factorial *= i;
+    if (!Number.isInteger(numero) || numero < 0) {
+        errorDiv.textContent = 'Error: Debe ingresar un número entero positivo';
+        return;
     }
     
-    // Mostrar el resultado
+    // Calcular factorial
+    const factorial = calcularFactorial(numero);
+    
+    // Mostrar resultado
+    resultadoDiv.textContent = `El factorial de ${numero} es: ${factorial}`;
+    
+    // También mostrar en consola (según requerimiento)
     console.log(`El factorial de ${numero} es: ${factorial}`);
-    
-    return factorial;
-}
+});
 
-// Llamar a la función para ejecutar el programa
-calcularFactorial();
+function calcularFactorial(n) {
+    let resultado = 1;
+    for (let i = 2; i <= n; i++) {
+        resultado *= i;
+    }
+    return resultado;
+}
